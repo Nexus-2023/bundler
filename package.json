@@ -16,6 +16,7 @@
     "bundler": "yarn --cwd packages/bundler bundler",
     "runop": "yarn --cwd packages/bundler runop",
     "runopPaymaster": "yarn --cwd packages/bundler runopPaymaster",
+    "targetContract": "yarn --cwd packages/bundler targetContract",
     "depositFund": "yarn --cwd packages/bundler depositFund",
     "runop-goerli": "yarn runop --network goerli --unsafe",
     "create-all-deps": "jq '.dependencies,.devDependencies' packages/*/package.json |sort  -u > all.deps",
