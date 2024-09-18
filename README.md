@@ -44,6 +44,38 @@ To run a simple test, do `yarn run runop --deployFactory --network http://localh
    - sends another transaction, on this existing wallet
    - (uses account[0] or mnemonic file for funding, and creating deployer if needed)
 
+To run a simple test using paymaster, copy .env.examples information in a new file namd .env and fill all information.
+
+Note: TARGET_CONTRACT_ABI & TARGET_CONTRACT_ADDRESS are optional variables.
+
+-----------------------------------------------------
+
+do `yarn run runopPaymaster`
+
+  The runopPaymaster script:
+  - deploys a wallet deployer (if not already there)
+  - determines the wallet address, and funds it
+  - sends a transaction (which also creates the wallet)
+  - sends another transaction, on this existing wallet
+  - use Paymaster to pay on the behalf of account
+
+---------------------------------------------------
+
+do `yarn run depositFund`
+
+  The depositFund script:
+  - funds the paymaster.
+
+
+---------------------------------------------------
+do fill all the necessary information required in the .env file (eg:  TARGET_CONTRACT_ABI & TARGET_CONTRACT_ADDRESS)
+and in the main function of script (customizedrunopPaymaster.ts) (eg: FUNCTION_NAME, FUNCTION_PARAMS)
+&& then
+
+do `yarn run targetContract` 
+
+   -the customizedrunopPaymaster allows you to interact with any smart contract:
+
 
 NOTE: if running on a testnet, you need to supply the bundler (and runop) the network and mnemonic file, e.g.
 
