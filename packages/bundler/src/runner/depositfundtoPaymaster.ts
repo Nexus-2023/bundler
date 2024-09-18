@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-async function depositToPaymaster() {
+async function main(): Promise<void> {
     // Load environment variables
     const PRIVATE_KEY = process.env.PRIVATE_KEY_FOR_FUNDING_PAYMASTER;
     const PAYMASTER_ADDRESS = process.env.PAYMASTER_ADDRESS;
@@ -28,6 +28,10 @@ async function depositToPaymaster() {
     ];
     const paymasterContract = new ethers.Contract(PAYMASTER_ADDRESS, paymasterAbi, signer);
 
+    const balance = await provider.getBalance(signer.address);
+    console.log("Account balance:", ethers.utils.formatEther(balance));
+
+
     // Define the amount to deposit (in this example, 0.5 ETH)
     const depositAmount = ethers.utils.parseEther("0.0005"); // Change this to the desired amount
 
@@ -45,4 +49,9 @@ async function depositToPaymaster() {
 }
 
 // Execute the function
-depositToPaymaster();
+void main()
+    .catch(e => {
+        console.log(e)
+        process.exit(1)
+    })
+    .then(() => process.exit(0))
