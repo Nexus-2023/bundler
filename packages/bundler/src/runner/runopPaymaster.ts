@@ -19,7 +19,7 @@ const BUNDLER_RPC="http://localhost:3000/rpc"
 const CHAIN_RPC="http://13.127.174.82:8449"
 const PAYMASTER="0x3AD71fe733325b9ef2046C206C09Aa5d600f800e"
 const FACTORY="0x130758C05DfA5B853a3F3ffa75b13999b4CAf73e"
-const PRIVATE_KEY="0xf4f383b2de60dce864199dc383e1f4b03ed1078ae08fc7e67224ff4bfc2c65f5"
+const PRIVATE_KEY=""
 
 async function main (): Promise<void> {
 
