@@ -5,6 +5,7 @@ import { DeterministicDeployer, HttpRpcClient, SimpleAccountAPI } from '@account
 import { PaymasterAPI } from './paymasterApi';
 import * as dotenv from 'dotenv';
 
+
 // Load environment variables
 dotenv.config();
 
@@ -15,6 +16,10 @@ const BUNDLER_RPC = process.env.BUNDLER_RPC ?? '';
 const CHAIN_RPC = process.env.CHAIN_RPC ?? '';
 const PAYMASTER = process.env.PAYMASTER ?? '';
 const FACTORY = process.env.FACTORY ?? '';
+const TARGET_CONTRACT_ABI = process.env.TARGET_CONTRACT_ABI ? JSON.parse(process.env.TARGET_CONTRACT_ABI) : []; // Assuming ABI is stored in an environment variable
+const TARGET_CONTRACT_ADDRESS = process.env.TARGET_CONTRACT_ADDRESS ?? ''; // Assuming contract address is stored in an environment variable
+const FUNCTION_NAME = process.env.FUNCTION_NAME ?? ''; // Assuming function name is stored in an environment variable
+const FUNCTION_PARAMS = process.env.FUNCTION_PARAMS ? JSON.parse(process.env.FUNCTION_PARAMS) : []; // Assuming params are stored as JSON string
 
 if (!PRIVATE_KEY || !ENTRYPOINT || !BUNDLER_RPC || !CHAIN_RPC || !PAYMASTER || !FACTORY) {
     throw new Error('Missing required environment variables.');
@@ -79,13 +84,33 @@ async function sendUserOperation(targetContract: string, encodedData: string): P
     }
 }
 
-// Example usage
+// function to encode call data for userOperation.
+
+
+async function encodeUserOperationData(
+  targetContractAddress: string, 
+  targetContract_ABI: any[], // Assuming ABI is an array of JSON objects
+  functionName: string, 
+  functionParams: any[]
+): Promise<string> {
+    const provider = new ethers.providers.JsonRpcProvider(CHAIN_RPC);
+
+    // Create a contract instance with the address, ABI, and provider
+    const targetContract = new ethers.Contract(targetContractAddress, targetContract_ABI, provider);
+
+    // Encode the function data using the function name and params
+    const data = targetContract.interface.encodeFunctionData(functionName, functionParams);
+
+    return data;
+}
+
 async function main(): Promise<void> {
-    // Define the target contract and encoded data for any arbitrary smart contract interaction
-    const targetContract = '0xTargetContractAddressHere'; // Replace with actual contract address
-    const encodedData = '0xEncodedFunctionDataHere'; // Replace with actual encoded function data
     
-    await sendUserOperation(targetContract, encodedData);
+  
+   
+
+    const encodedData = await encodeUserOperationData(TARGET_CONTRACT_ADDRESS, TARGET_CONTRACT_ABI, FUNCTION_NAME, FUNCTION_PARAMS);
+    await sendUserOperation(TARGET_CONTRACT_ADDRESS, encodedData);
 }
 
 void main()
