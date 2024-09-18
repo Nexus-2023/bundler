@@ -18,8 +18,6 @@ const PAYMASTER = process.env.PAYMASTER ?? '';
 const FACTORY = process.env.FACTORY ?? '';
 const TARGET_CONTRACT_ABI = process.env.TARGET_CONTRACT_ABI ? JSON.parse(process.env.TARGET_CONTRACT_ABI) : []; // Assuming ABI is stored in an environment variable
 const TARGET_CONTRACT_ADDRESS = process.env.TARGET_CONTRACT_ADDRESS ?? ''; // Assuming contract address is stored in an environment variable
-const FUNCTION_NAME = process.env.FUNCTION_NAME ?? ''; // Assuming function name is stored in an environment variable
-const FUNCTION_PARAMS = process.env.FUNCTION_PARAMS ? JSON.parse(process.env.FUNCTION_PARAMS) : []; // Assuming params are stored as JSON string
 
 if (!PRIVATE_KEY || !ENTRYPOINT || !BUNDLER_RPC || !CHAIN_RPC || !PAYMASTER || !FACTORY) {
     throw new Error('Missing required environment variables.');
@@ -107,7 +105,8 @@ async function encodeUserOperationData(
 async function main(): Promise<void> {
     
   
-   
+    const FUNCTION_NAME = "";
+    let FUNCTION_PARAMS: any[] = [];
 
     const encodedData = await encodeUserOperationData(TARGET_CONTRACT_ADDRESS, TARGET_CONTRACT_ABI, FUNCTION_NAME, FUNCTION_PARAMS);
     await sendUserOperation(TARGET_CONTRACT_ADDRESS, encodedData);
