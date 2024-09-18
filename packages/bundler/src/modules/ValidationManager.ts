@@ -193,6 +193,7 @@ export class ValidationManager {
     } else {
       // NOTE: this mode doesn't do any opcode checking and no stake checking!
       res = await this._callSimulateValidation(userOp)
+      console.log("validation_manager",res)
     }
 
     requireCond(!res.returnInfo.sigFailed,

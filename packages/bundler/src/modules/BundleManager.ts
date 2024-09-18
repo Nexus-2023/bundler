@@ -81,11 +81,18 @@ export class BundleManager {
       const tx = await this.entryPoint.populateTransaction.handleOps(userOps, beneficiary, {
         type: 2,
         nonce: await this.signer.getTransactionCount(),
-        gasLimit: 10e6,
-        maxPriorityFeePerGas: feeData.maxPriorityFeePerGas ?? 0,
-        maxFeePerGas: feeData.maxFeePerGas ?? 0
+        gasLimit: 10e9,
+        maxPriorityFeePerGas: 120000,
+        maxFeePerGas: 120000,
+
       })
+
+      //callGasLimit: 10000000
+      //verificationGasLimit: 77941096
+      //masFeePerGase: 1500200000 
+      //maxPriorityFeePerGas: 1500000000
       tx.chainId = this.provider._network.chainId
+      console.log("chainId",tx.chainId);
       const signedTx = await this.signer.signTransaction(tx)
       let ret: string
       if (this.conditionalRpc) {
@@ -97,6 +104,7 @@ export class BundleManager {
       } else {
         // ret = await this.signer.sendTransaction(tx)
         ret = await this.provider.send('eth_sendRawTransaction', [signedTx])
+        console.log("ret",ret);
         debug('eth_sendRawTransaction ret=', ret)
       }
       // TODO: parse ret, and revert if needed.
