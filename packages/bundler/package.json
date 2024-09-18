@@ -12,6 +12,7 @@
     "runop": "ts-node ./src/runner/runop.ts",
     "runopPaymaster": "ts-node ./src/runner/runopPaymaster.ts",
     "depositFund": "ts-node ./src/runner/depositfundtoPaymaster.ts",
+    "targetContract": "ts-node ./src/runner/customizedrunopPaymaster.ts",
     "bundler": "ts-node ./src/exec.ts --config ./localconfig/bundler.config.json",
     "clear": "rm -rf dist artifacts cache src/types",
     "hardhat-compile": "hardhat compile",
