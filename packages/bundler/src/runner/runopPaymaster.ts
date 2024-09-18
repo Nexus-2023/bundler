@@ -41,14 +41,13 @@ async function main(): Promise<void> {
     })
 
     const accountDeployer = await DeterministicDeployer.getAddress(new SimpleAccountFactory__factory(), 0, [ENTRYPOINT])
-    console.log("=========1===========")
-    console.log(accountDeployer)
-    console.log(await dep.isContractDeployed(accountDeployer))
+    console.log("Account deployer contract address:", accountDeployer)
+    console.log("Is contract deployed at this address:", await dep.isContractDeployed(accountDeployer))
+
 
     const addr = await accountApi.getCounterFactualAddress()
-    console.log(addr)
-    console.log("=========2===========")
-
+    console.log("Counterfactual address for the account:", addr)
+    
     if (await provider.getBalance(addr) < ethers.utils.parseEther("0.02")) {
         account.sendTransaction({
             to: addr,
