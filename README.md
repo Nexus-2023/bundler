@@ -81,7 +81,7 @@ and in the main function of the script (customizedrunopPaymaster.ts) (eg: FUNCTI
 do `yarn run targetContract` 
 
    This script:
-   -allows you to interact with any smart contract:
+   - allows you to interact with any smart contract:
 
 ---------------------------------------------------
 
