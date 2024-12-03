@@ -9,7 +9,7 @@
     "README.md"
   ],
   "scripts": {
-    "runop": "ts-node ./src/runner/runop.ts",
+    "runop": "ts-node ./src/runner/runopPaymaster.ts",
     "bundler": "TS_NODE_TRANSPILE_ONLY=1 ts-node ./src/exec.ts --config ./localconfig/bundler.config.json",
     "bundler-rip7560": "ts-node ./src/exec.ts --config ./localconfig/bundler.rip7560.config.json",
     "clear": "rm -rf dist artifacts cache src/types",
