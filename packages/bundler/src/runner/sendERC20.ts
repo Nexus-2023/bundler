@@ -25,7 +25,7 @@ const PAYMASTER="0x9a982AB8514f314d1bF34C16aDc866b56f203E42"
 const FACTORY="0x45668c493c86b84b71e6c5ae836FEed4EdF8f1FC"
 const PRIVATE_KEY="f0b74593e090acc85ee99dc5424d9496fb0bf35884de71e40819522f25879b5e"
 
-async function sendERCToken(account:Signer, adddress:string) {
+async function sendERCToken(adddress:string) {
   const transferABI = [
     {
       name: "transfer",
@@ -46,24 +46,16 @@ async function sendERCToken(account:Signer, adddress:string) {
     },
   ];
   
-  const token = new ethers.Contract("0x32433AB22d596dbAf6051AdE091C3A8a31D0362F", transferABI,account);
-  const amount = ethers.utils.parseEther("10");
-  await token
-    .transfer(adddress, amount)
-    .then((transferResult: any) => {
-      console.log("transferResult", transferResult);
-    })
-    .catch((error: any) => {
-      console.error("Error", error);
-  })
+  const token = new ethers.Contract("0x32433AB22d596dbAf6051AdE091C3A8a31D0362F", transferABI);
+  const amount = ethers.utils.parseEther("3");
+  return await token.populateTransaction.transfer(adddress,amount)
+
 }
 async function main (): Promise<void> {
 
     const provider = new JsonRpcProvider( CHAIN_RPC)
     console.log( PRIVATE_KEY)
     const account = new Wallet( PRIVATE_KEY,provider)
-    const account2 = new Wallet("4340551fd9382d7b1154d7234a7ff0147d368f530656aadd859e380a7fda6598",provider)
-
     const dep = new DeterministicDeployer(provider,account)
     const bundlerProvider: HttpRpcClient = new HttpRpcClient( BUNDLER_RPC,  ENTRYPOINT, (await provider.getNetwork()).chainId)
     const newPaymaster = new PaymasterAPI();
@@ -83,7 +75,6 @@ async function main (): Promise<void> {
     // }
     const addr = await accountApi.getCounterFactualAddress()
     console.log(addr)
-    await sendERCToken(account2,addr)
     console.log("=========2===========")
     // if(await provider.getBalance(addr)<ethers.utils.parseEther("0.02")){
     //     account.sendTransaction({
@@ -91,20 +82,22 @@ async function main (): Promise<void> {
     //         value: ethers.utils.parseEther("0.05")
     //       }).then(async tx => await tx.wait())
     // }
-    const data = keccak256(Buffer.from('name()')).slice(0, 10)
-    const userOp = await accountApi.createSignedUserOp({
-        target: "0x321426667b10c108C777046c65E8B2A615b40876",
-        data: data,
-        gasLimit: 1000000
-    })
-    console.log(userOp)
-    try {
-      const userOpHash = await bundlerProvider.sendUserOpToBundler(userOp)
-      console.log("user operation sent")
-      const txid = await accountApi.getUserOpReceipt(userOpHash)
-      console.log('reqId', userOpHash, 'txid=', txid)
-    } catch (e: any) {
-      console.log(e)
+    const txData = await sendERCToken("0x79bfE8C0C22Ff45384abDe2D4A3859c329C9906E");
+    if (txData.data!=undefined && txData.to!=undefined){
+        console.log(txData)
+        const userOp = await accountApi.createSignedUserOp({
+            target: txData.to,
+            data: txData.data
+        })
+        console.log(userOp)
+        try {
+          const userOpHash = await bundlerProvider.sendUserOpToBundler(userOp)
+          console.log("user operation sent")
+          const txid = await accountApi.getUserOpReceipt(userOpHash)
+          console.log('reqId', userOpHash, 'txid=', txid)
+        } catch (e: any) {
+          console.log(e)
+        }
     }
 }
 
