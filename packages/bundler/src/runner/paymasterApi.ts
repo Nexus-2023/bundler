@@ -20,7 +20,7 @@ export class PaymasterAPI {
      */
     async getPaymasterData (userOp: Partial<UserOperation>): Promise<PaymasterParams | null> {
       const paymasterparam: PaymasterParams = {
-        paymaster: "0xC1c7dd90239502eB87e87E585d4EbE9a9c3b8df8",
+        paymaster: "0xd00238C7Cb1f35B9f7A9Cd5387D43A5ec8b43F78",
         paymasterVerificationGasLimit: 1000000,
         paymasterPostOpGasLimit:50000,
       }
@@ -29,7 +29,7 @@ export class PaymasterAPI {
 
     async getTemporaryPaymasterData(userOp: Partial<UserOperation>): Promise<PaymasterParams | null>{
       const paymasterparam: PaymasterParams = {
-        paymaster: "0xC1c7dd90239502eB87e87E585d4EbE9a9c3b8df8",
+        paymaster: "0xd00238C7Cb1f35B9f7A9Cd5387D43A5ec8b43F78",
         paymasterVerificationGasLimit:1000000,
         paymasterPostOpGasLimit:50000,
       }
