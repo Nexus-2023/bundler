@@ -47,7 +47,7 @@ async function sendERCToken(adddress:string) {
   ];
   
   const token = new ethers.Contract("0x32433AB22d596dbAf6051AdE091C3A8a31D0362F", transferABI);
-  const amount = ethers.utils.parseEther("0.01");
+  const amount = ethers.utils.parseEther("3");
   return await token.populateTransaction.transfer(adddress,amount)
 
 }
