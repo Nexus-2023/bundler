@@ -6,18 +6,22 @@ Nexus deployed bundler and paymaster to sponsor transactions on sepolia
 yarn 
 yarn preprocess
 ```
-- Change the params:
+- Go into the folder:
+```
+cd packages/bundler
+```
+- Change the params in `src/unner/runopPaymaster.ts` and `src/unner/sendERC20.ts`:
     - Have added test private keys
     - Add sepolia rpc
 ```
 const CHAIN_RPC=<SEPOLIA_RPC>
 ```
-- Run the operation
-**The fees will be paid by paymaster**
+- Run the operation. This will create the smart wallet
+*The fees will be paid by paymaster*
 ```
 yarn run runop
 ```
-- Send ERC token
+- Send ERC token from smart wallet
 ```
 yarn run sendERC
 ```
